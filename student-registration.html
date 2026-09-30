@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f7f2">
+    <title>Student Registration | Northfield College</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #1e302b;
+            --muted: #64736c;
+            --paper: #fffefa;
+            --canvas: #f3f5ef;
+            --line: #dce3dc;
+            --green: #236b51;
+            --green-dark: #184e3b;
+            --coral: #c45d43;
+            --focus: #e5a84d;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background-color: var(--canvas);
+            background-image: radial-gradient(#c9d6c9 0.7px, transparent 0.7px);
+            background-size: 18px 18px;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+        }
+
+        .topbar {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7vw;
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--green-dark);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: var(--green);
+            border-radius: 50% 50% 50% 8px;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .topbar-note {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        main {
+            width: min(920px, calc(100% - 36px));
+            margin: 54px auto 72px;
+            animation: arrive 500ms ease-out both;
+        }
+
+        .intro {
+            margin-bottom: 24px;
+        }
+
+        .eyebrow {
+            margin: 0 0 9px;
+            color: var(--coral);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(32px, 5vw, 46px);
+            font-weight: 500;
+            line-height: 1.1;
+        }
+
+        .intro p:last-child {
+            margin: 10px 0 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        form {
+            padding: clamp(22px, 5vw, 42px);
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-top: 4px solid var(--green);
+            box-shadow: 0 16px 42px rgb(32 53 42 / 8%);
+        }
+
+        fieldset {
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        fieldset + fieldset {
+            margin-top: 32px;
+            padding-top: 27px;
+            border-top: 1px solid var(--line);
+        }
+
+        legend {
+            width: 100%;
+            margin-bottom: 19px;
+            padding: 0;
+            color: var(--green-dark);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 21px;
+        }
+
+        .fields {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px 20px;
+        }
+
+        .field { min-width: 0; }
+        .field.full { grid-column: 1 / -1; }
+
+        label, .group-label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .optional {
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            min-height: 45px;
+            padding: 10px 12px;
+            color: var(--ink);
+            background: #fff;
+            border: 1px solid #cbd5cc;
+            border-radius: 3px;
+            font: inherit;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 92px;
+            resize: vertical;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: 3px solid color-mix(in srgb, var(--focus) 40%, transparent);
+            border-color: var(--green);
+        }
+
+        .choice-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 22px;
+            min-height: 45px;
+            align-items: center;
+        }
+
+        .choice {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            color: var(--ink);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .choice input, .consent input {
+            width: 17px;
+            min-height: 17px;
+            margin: 0;
+            accent-color: var(--green);
+        }
+
+        .consent {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 26px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .consent input { flex: 0 0 auto; margin-top: 2px; }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+            margin-top: 25px;
+        }
+
+        button {
+            min-height: 46px;
+            padding: 0 22px;
+            color: white;
+            background: var(--green);
+            border: 0;
+            border-radius: 3px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 150ms ease, transform 150ms ease;
+        }
+
+        button:hover { background: var(--green-dark); transform: translateY(-1px); }
+        button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+        .form-note {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        #confirmation {
+            margin: 20px 0 0;
+            padding: 13px 15px;
+            color: var(--green-dark);
+            background: #e8f2e9;
+            border-left: 3px solid var(--green);
+            font-size: 14px;
+        }
+
+        #confirmation[hidden] { display: none; }
+
+        @keyframes arrive {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .topbar { min-height: 62px; padding: 0 18px; }
+            .topbar-note { max-width: 125px; text-align: right; line-height: 1.4; }
+            main { margin-top: 35px; }
+            .fields { grid-template-columns: 1fr; gap: 15px; }
+            .field.full { grid-column: auto; }
+            .actions { align-items: flex-start; flex-direction: column; }
+            button { width: 100%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">N</span> Northfield College</div>
+        <div class="topbar-note">Admissions · Academic year 2026–27</div>
+    </header>
+
+    <main>
+        <section class="intro" aria-labelledby="page-title">
+            <p class="eyebrow">New student application</p>
+            <h1 id="page-title">Student registration</h1>
+            <p>Complete the details below to begin your application.</p>
+        </section>
+
+        <form id="registration-form">
+            <fieldset>
+                <legend>Student details</legend>
+                <div class="fields">
+                    <div class="field">
+                        <label for="first-name">First name</label>
+                        <input id="first-name" name="firstName" type="text" autocomplete="given-name" required>
+                    </div>
+                    <div class="field">
+                        <label for="last-name">Last name</label>
+                        <input id="last-name" name="lastName" type="text" autocomplete="family-name" required>
+                    </div>
+                    <div class="field">
+                        <label for="birth-date">Date of birth</label>
+                        <input id="birth-date" name="dateOfBirth" type="date" autocomplete="bday" required>
+                    </div>
+                    <div class="field">
+                        <span class="group-label" id="gender-label">Gender</span>
+                        <div class="choice-row" role="group" aria-labelledby="gender-label">
+                            <label class="choice"><input type="radio" name="gender" value="female" required> Female</label>
+                            <label class="choice"><input type="radio" name="gender" value="male"> Male</label>
+                            <label class="choice"><input type="radio" name="gender" value="prefer-not-to-say"> Prefer not to say</label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Contact information</legend>
+                <div class="fields">
+                    <div class="field">
+                        <label for="email">Email address</label>
+                        <input id="email" name="email" type="email" autocomplete="email" required>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone number</label>
+                        <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+                    </div>
+                    <div class="field full">
+                        <label for="address">Home address</label>
+                        <textarea id="address" name="address" autocomplete="street-address" required></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="city">City / town</label>
+                        <input id="city" name="city" type="text" autocomplete="address-level2" required>
+                    </div>
+                    <div class="field">
+                        <label for="postal-code">Postal code</label>
+                        <input id="postal-code" name="postalCode" type="text" autocomplete="postal-code" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Academic details</legend>
+                <div class="fields">
+                    <div class="field">
+                        <label for="course">Program of interest</label>
+                        <select id="course" name="course" required>
+                            <option value="" disabled selected>Select a program</option>
+                            <option value="bca-ai">BCA - Artificial Intelligence</option>
+                            <option value="bsc-computer-science">BSc - Computer Science</option>
+                            <option value="bcom">BCom</option>
+                            <option value="ba-english">BA - English</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="admission-year">Admission year</label>
+                        <select id="admission-year" name="admissionYear" required>
+                            <option value="" disabled selected>Select a year</option>
+                            <option value="2026-27">2026–27</option>
+                            <option value="2027-28">2027–28</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="qualification">Highest qualification</label>
+                        <select id="qualification" name="qualification" required>
+                            <option value="" disabled selected>Select qualification</option>
+                            <option value="grade-10">Grade 10 / SSLC</option>
+                            <option value="grade-12">Grade 12 / HSC</option>
+                            <option value="diploma">Diploma</option>
+                            <option value="undergraduate">Undergraduate degree</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="school">Last school / institution</label>
+                        <input id="school" name="lastInstitution" type="text" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <label class="consent" for="declaration">
+                <input id="declaration" name="declaration" type="checkbox" required>
+                <span>I confirm that the information provided is accurate to the best of my knowledge.</span>
+            </label>
+
+            <div class="actions">
+                <button type="submit">Submit registration</button>
+                <p class="form-note">Fields marked by the browser as required must be completed.</p>
+            </div>
+            <p id="confirmation" role="status" aria-live="polite" hidden>Thanks. Your details passed validation. This demo does not send or store your application.</p>
+        </form>
+    </main>
+
+    <script>
+        const form = document.querySelector("#registration-form");
+        const confirmation = document.querySelector("#confirmation");
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            confirmation.hidden = false;
+            confirmation.focus();
+        });
+    </script>
+</body>
+</html>
